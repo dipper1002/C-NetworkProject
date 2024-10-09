@@ -1,4 +1,5 @@
-﻿
+﻿#define _WINSOCK_DEPRECATED_NO_WARNINGS
+//#include "stdafx.h"
 #include <iostream>
 #include <WinSock2.h>
 
@@ -6,7 +7,6 @@
 
 #define PORT 4578
 #define PACKET_SIZE 1024
-#define SERVER_IP "xxx.xxx.xxx.xxx"
 
 using namespace std;
 
@@ -15,24 +15,30 @@ int main()
 	WSADATA wsaData;
 	WSAStartup(MAKEWORD(2, 2), &wsaData);
 
-	SOCKET hSocket;
-	hSocket = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
+	SOCKET hListen;
+	hListen = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);
 
-	SOCKADDR_IN tAddr = {};
-	tAddr.sin_family = AF_INET;
-	tAddr.sin_port = htons(PORT);
-	tAddr.sin_addr.s_addr = inet_addr(SERVER_IP);
+	SOCKADDR_IN tListenAddr = {};
+	tListenAddr.sin_family = AF_INET;
+	tListenAddr.sin_port = htons(PORT);
+	tListenAddr.sin_addr.s_addr = htonl(INADDR_ANY);
 
-	connect(hSocket, (SOCKADDR*)&tAddr, sizeof(tAddr));
+	bind(hListen, (SOCKADDR*)&tListenAddr, sizeof(tListenAddr));
+	listen(hListen, SOMAXCONN);
 
-	char cMsg[] = "Clinet Send";
-	send(hSocket, cMsg, strlen(cMsg), 0);
+	SOCKADDR_IN tClntAddr = {};
+	int iClntSize = sizeof(tClntAddr);
+	SOCKET hClient = accept(hListen, (SOCKADDR*)&tClntAddr, &iClntSize);
 
 	char cBuffer[PACKET_SIZE] = {};
-	recv(hSocket, cBuffer, PACKET_SIZE, 0);
-	printf("Recv Msg : %s\n", cBuffer);
+	recv(hClient, cBuffer, PACKET_SIZE, 0);
+	cout << "Receive Message: " << cBuffer << endl;
 
-	closesocket(hSocket);
+	char cMsg[] = "Hello, Client!";
+	send(hClient, cMsg, strlen(cMsg), 0);
+
+	closesocket(hClient);
+	closesocket(hListen);
 
 	WSACleanup();
 	return 0;
