@@ -41,7 +41,8 @@ void Server::TGetUpdate(SOCKET hClient)
 	while (1)
 	{
 		int output = recv(hClient, cBuffer, 1024, 0);
-		if (output == 0)
+		cBuffer[output] = '\0';
+		if (output <= 0)
 		{
 			cout << "Client Disconnected" << endl;
 			break;
