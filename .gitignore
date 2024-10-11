@@ -19,3 +19,5 @@ CNETWORK/.vs/CNETWORK/FileContentIndex/efe9e3bf-15b0-4eb8-8c09-8836f1fb73dc.vsid
 *.vsidx
 CCLIENT/.vs/
 CNETWORK/.vs/
+CCLIENT/CCLIENT/x64/Debug/
+.exe
