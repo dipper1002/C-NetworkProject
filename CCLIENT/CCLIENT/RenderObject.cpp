@@ -2,6 +2,8 @@
 #include "RenderObject.h"
 #include "DefineSetting.h"
 #include "math.h"
+#include "TColor.h"
+
 #include<iostream>
 
 using namespace std;
@@ -11,7 +13,7 @@ RenderObject::RenderObject()
 	this->rightUp = 0;
 	this->leftDown = 0;
 	this->rightDown = 0;
-	this->color = 0;
+	this->color = 15;
 }	
 RenderObject::RenderObject(int leftUp, int rightUp, int leftDown, int rightDown, int color )
 {
@@ -31,6 +33,7 @@ void RenderObject::Print()
 	int ld = leftDown / (TILE_SIZE_X * TILE_SIZE_Y / 4 / 1.9);
 	int rd = rightDown / (TILE_SIZE_X * TILE_SIZE_Y / 4 / 1.9);
 
+	TextColor(color, BLACK);
 
 	if (lu == 0 && ru == 0 && ld == 0 && rd == 0)		cout << " ";
 	else if (lu == 0 && ru == 1 && ld == 0 && rd == 0) cout << "'";

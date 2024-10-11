@@ -129,6 +129,8 @@
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Client.cpp" />
+    <ClCompile Include="Color.cpp" />
+    <ClCompile Include="TColor.h" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Render.cpp" />
     <ClCompile Include="RenderObject.cpp" />

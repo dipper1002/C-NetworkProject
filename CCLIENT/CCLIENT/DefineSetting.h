@@ -6,4 +6,4 @@
 #define MAP_SIZE_X 960
 #define MAP_SIZE_Y 540
 #define TILE_SIZE_X 16
-#define TILE_SIZE_Y 24
+#define TILE_SIZE_Y 27

@@ -1,4 +1,5 @@
-#include "Render.h""
+#include "Render.h"
+#include "TColor.h"
 Render::Render()
 {
 	for (int i = 0; i < MAP_SIZE_Y / TILE_SIZE_Y; i++)
@@ -15,7 +16,7 @@ Render::Render()
 Render::~Render()
 {
 }
-void Render::PrintBoard(vector<vector<bool>> v)
+void Render::PrintBoard(vector<vector<int>> v)
 {
 	for (int i = 0; i < v.size() / TILE_SIZE_Y; i++)
 	{
@@ -25,11 +26,12 @@ void Render::PrintBoard(vector<vector<bool>> v)
 			int ru = 0;
 			int ld = 0;
 			int rd = 0;
+			int color[COLOR_COUNT] = { 0, };
 			for (int k = 0; k < TILE_SIZE_Y; k++)
 			{
 				for (int l = 0; l < TILE_SIZE_X; l++)
 				{
-					if (v[i * TILE_SIZE_Y + k][j * TILE_SIZE_X + l] == 1)
+					if (v[i * TILE_SIZE_Y + k][j * TILE_SIZE_X + l] >= 1)
 					{
 						if (k < TILE_SIZE_Y / 2)
 						{
@@ -53,10 +55,22 @@ void Render::PrintBoard(vector<vector<bool>> v)
 								rd += 1;
 							}
 						}
+						color [v[i * TILE_SIZE_Y + k][j * TILE_SIZE_X + l] - 1] += 1;
 					}
 				}
 			}
+			int max = 0;
+			int maxIndex = 0;
+			for (int k = 0; k < COLOR_COUNT; k++)
+			{
+				if (color[k] > max)
+				{
+					max = color[k];
+					maxIndex = k;
+				}
+			}
 			board[i][j].SetState(lu,ru,ld,rd);
+			board[i][j].SetColor(maxIndex);
 			board[i][j].Print();
 		}
 		cout<<endl;

@@ -11,8 +11,9 @@ class Board
 public:
 	Board();
 	~Board();
-	void PaintBox(int x1,int y1,int x2,int y2);
+	void PaintCircle(int x, int y, int r, int color = 15);
+	void PaintBox(int x1,int y1,int x2,int y2, int color = 15);
 	void PrintBoard(Render render);
 private:
-	vector<vector<bool>> board;
+	vector<vector<int>> board;
 };

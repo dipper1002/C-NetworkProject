@@ -17,13 +17,26 @@ Board::Board()
 Board::~Board()
 {
 }
-void Board::PaintBox(int x1, int y1, int x2, int y2)
+void Board::PaintCircle(int x, int y, int r, int color)
+{
+	for (int i = 0; i < MAP_SIZE_Y; i++)
+	{
+		for (int j = 0; j < MAP_SIZE_X; j++)
+		{
+			if ((i - y) * (i - y) + (j - x) * (j - x) <= r * r)
+			{
+				board[i][j] = color+1;
+			}
+		}
+	}
+}
+void Board::PaintBox(int x1, int y1, int x2, int y2, int color)
 {
 	for (int i = y1; i < y2; i++)
 	{
 		for (int j = x1; j < x2; j++)
 		{
-			board[i][j] = 1;
+			board[i][j] = color+1;
 		}
 	}
 
