@@ -71,9 +71,9 @@ void Render::PrintBoard(vector<vector<int>> v)
 			}
 			board[i][j].SetState(lu,ru,ld,rd);
 			board[i][j].SetColor(maxIndex);
-			board[i][j].Print();
+			board[i][j].Print(j,i);
 		}
-		cout<<endl;
+		cout << "\n";
 	}
 
 }
