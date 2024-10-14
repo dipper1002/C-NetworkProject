@@ -16,9 +16,8 @@ int main()
 	while (true)
 	{
 		//system("cls");
-		board.PaintCircle(400, 400, 250, GREEN);
-		board.PaintCircle(600, 300, 210, RED);
-		board.PaintBox(100, 100, 200, 200, BLUE);
+		board.PaintBox(200, 400, 800, 600);
+		player.PlayerUpdate();
 		player.PrintPlayer(board);
 		board.PrintBoard(render);
 	}
