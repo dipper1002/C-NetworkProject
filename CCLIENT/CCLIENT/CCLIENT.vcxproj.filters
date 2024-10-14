@@ -16,6 +16,18 @@
     <Filter Include="소스 파일\InGame">
       <UniqueIdentifier>{b4ce750e-4721-48cf-a9cc-cdb6e5b5f21d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="헤더 파일\System">
+      <UniqueIdentifier>{533969fd-e39b-40ac-b825-e3d2cbc1e144}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="헤더 파일\System\Observer">
+      <UniqueIdentifier>{ddab364e-9962-4f1f-8212-b487b337d219}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Observer">
+      <UniqueIdentifier>{ecb9f26e-051f-4941-9231-38329f9b224c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\System">
+      <UniqueIdentifier>{07f812f9-597f-49eb-94e3-52d04616bc20}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -39,8 +51,17 @@
     <ClCompile Include="Color.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>소스 파일\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>소스 파일\Observer</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>소스 파일\InGame</Filter>
+    </ClCompile>
     <ClCompile Include="InputManager.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>소스 파일\System</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -59,8 +80,17 @@
     <ClInclude Include="Render.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="InputManager.h">
+    <ClInclude Include="Player.h">
       <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>헤더 파일\System\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>헤더 파일\System\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>헤더 파일\System</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

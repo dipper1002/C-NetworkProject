@@ -32,10 +32,12 @@ void Board::PaintCircle(int x, int y, int r, int color)
 }
 void Board::PaintBox(int x1, int y1, int x2, int y2, int color)
 {
+
 	for (int i = y1; i < y2; i++)
 	{
 		for (int j = x1; j < x2; j++)
 		{
+			if (i >= 0 && i < MAP_SIZE_Y && j >= 0 && j < MAP_SIZE_X)
 			board[i][j] = color+1;
 		}
 	}

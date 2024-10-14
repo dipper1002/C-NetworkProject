@@ -56,25 +56,6 @@ void RenderObject::Print(int x, int y)
 	COORD pos = { x,y };
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 	cout << table[lu * 2 + rd][ru + ld * 2];
-	//return table[lu*2+rd][ru+ld*2];
-	/*
-	if (lu == 0 && ru == 0 && ld == 0 && rd == 0)		cout << " ";
-	else if (lu == 0 && ru == 1 && ld == 0 && rd == 0) cout << "'";
-	else if (lu == 0 && ru == 0 && ld == 1 && rd == 0) cout << ",";
-	else if (lu == 0 && ru == 1 && ld == 1 && rd == 0) cout << "/";
-	else if (lu == 0 && ru == 0 && ld == 0 && rd == 1) cout << ".";
-	else if (lu == 0 && ru == 1 && ld == 0 && rd == 1) cout << "(";
-	else if (lu == 0 && ru == 0 && ld == 1 && rd == 1) cout << "_";
-	else if (lu == 0 && ru == 1 && ld == 1 && rd == 1) cout << "d";
-	else if (lu == 1 && ru == 0 && ld == 0 && rd == 0) cout << "`";
-	else if (lu == 1 && ru == 1 && ld == 0 && rd == 0) cout << "^";
-	else if (lu == 1 && ru == 0 && ld == 1 && rd == 0) cout << "l";
-	else if (lu == 1 && ru == 1 && ld == 1 && rd == 0) cout << "r";
-	else if (lu == 1 && ru == 0 && ld == 0 && rd == 1) cout << "\\";
-	else if (lu == 1 && ru == 1 && ld == 0 && rd == 1) cout << "q";
-	else if (lu == 1 && ru == 0 && ld == 1 && rd == 1) cout << "b";
-	else if (lu == 1 && ru == 1 && ld == 1 && rd == 1) cout << "B";
-	*/
 }
 void RenderObject::SetColor(int color)
 {

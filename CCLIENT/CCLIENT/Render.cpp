@@ -16,7 +16,7 @@ Render::Render()
 Render::~Render()
 {
 }
-void Render::PrintBoard(vector<vector<int>> v)
+void Render::PrintBoard(vector<vector<int>>& v)
 {
 	for (int i = 0; i < v.size() / TILE_SIZE_Y; i++)
 	{
@@ -56,6 +56,7 @@ void Render::PrintBoard(vector<vector<int>> v)
 							}
 						}
 						color [v[i * TILE_SIZE_Y + k][j * TILE_SIZE_X + l] - 1] += 1;
+						v[i * TILE_SIZE_Y + k][j * TILE_SIZE_X + l] = 0;
 					}
 				}
 			}

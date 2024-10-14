@@ -10,7 +10,7 @@ class Render
 public:
 	Render();
 	~Render();
-	void PrintBoard(vector<vector<int>> v);
+	void PrintBoard(vector<vector<int>>& v);
 private:
 	vector<vector<RenderObject>> board;
 };
