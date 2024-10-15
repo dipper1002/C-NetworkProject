@@ -29,12 +29,10 @@ Timer::Timer()
     // 컴퓨터는 나눗셈연산보다 곱셈연산이 더 빠르기때문에 매 프레임마다 연산을 해야할경우 
     //역수로 만들어놓고 실제 계산때 곱셈하게 만들어놓는게 좋다.
 
-    t1 = thread(&Timer::Update, this);
 }
 
 Timer::~Timer()
 {
-	t1.join();
 }
 
 void Timer::Update()

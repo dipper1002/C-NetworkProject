@@ -17,6 +17,7 @@ int main()
 	Timer::GetInstance();
 	while (true)
 	{
+		Timer::GetInstance()->Update();
 		//system("cls");
 		board.PaintBox(200, 400, 800, 600);
 		player.PlayerUpdate();

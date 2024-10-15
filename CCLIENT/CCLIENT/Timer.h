@@ -17,5 +17,4 @@ private:
 	__int64 periodFrequency;
 	double deltaTime;
 	double timeScale;
-	thread t1;
 };

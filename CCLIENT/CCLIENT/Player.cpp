@@ -2,8 +2,8 @@
 #include "TColor.h"
 #include "Timer.h"
 Player::Player() : 
-leftMove(std::make_shared<Observer>([this]() {x -= 5000 * Timer::GetInstance()->GetDeltaTime(); })),
-rightMove(std::make_shared<Observer>([this]() {x += 5000 * Timer::GetInstance()->GetDeltaTime(); })),
+leftMove(std::make_shared<Observer>([this]() {x -= 50 * Timer::GetInstance()->GetDeltaTime(); })),
+rightMove(std::make_shared<Observer>([this]() {x += 50 * Timer::GetInstance()->GetDeltaTime(); })),
 upMove(std::make_shared<Observer>([this]() {if (jumpCount > 0) { gravity = -22; jumpCount--; } })),
 downMove(std::make_shared<Observer>([this]() {y += 5; }))
 {
