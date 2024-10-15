@@ -5,6 +5,7 @@
 #include "Board.h"
 #include "TColor.h"
 #include "Player.h"
+#include "Timer.h"
 #pragma comment(lib, "ws2_32")
 
 int main()
@@ -13,6 +14,7 @@ int main()
 	Board board;
 	Render render;
 	Player player;
+	Timer::GetInstance();
 	while (true)
 	{
 		//system("cls");

@@ -11,7 +11,7 @@ public:
 	void PrintPlayer(Board& b);
 	void PlayerUpdate();
 private:
-	int x, y;
+	double x, y;
 	float gravity;
 	int jumpCount;
 	shared_ptr<Observer> leftMove;

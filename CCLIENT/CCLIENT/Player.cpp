@@ -1,8 +1,9 @@
 #include "Player.h"
 #include "TColor.h"
+#include "Timer.h"
 Player::Player() : 
-leftMove(std::make_shared<Observer>([this]() {x -= 5; })),
-rightMove(std::make_shared<Observer>([this]() {x += 5; })),
+leftMove(std::make_shared<Observer>([this]() {x -= 5000 * Timer::GetInstance()->GetDeltaTime(); })),
+rightMove(std::make_shared<Observer>([this]() {x += 5000 * Timer::GetInstance()->GetDeltaTime(); })),
 upMove(std::make_shared<Observer>([this]() {if (jumpCount > 0) { gravity = -22; jumpCount--; } })),
 downMove(std::make_shared<Observer>([this]() {y += 5; }))
 {
@@ -30,5 +31,5 @@ void Player::PlayerUpdate()
 }
 void Player::PrintPlayer(Board& b)
 {
-	b.PaintBox(x-25, y-25, x+25, y+25,RED);
+	b.PaintBox((int)x-25, (int)y-25, x+25, y+25,RED);
 }
