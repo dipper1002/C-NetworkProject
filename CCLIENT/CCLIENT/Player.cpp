@@ -4,7 +4,7 @@
 Player::Player() : 
 leftMove(std::make_shared<Observer>([this]() {x -= 50 * Timer::GetInstance()->GetDeltaTime(); })),
 rightMove(std::make_shared<Observer>([this]() {x += 50 * Timer::GetInstance()->GetDeltaTime(); })),
-upMove(std::make_shared<Observer>([this]() {if (jumpCount > 0) { gravity = -22; jumpCount--; } })),
+upMove(std::make_shared<Observer>([this]() {if (jumpCount > 0) { gravity = -400; jumpCount--; } })),
 downMove(std::make_shared<Observer>([this]() {y += 5; }))
 {
 	x = 300;
@@ -20,8 +20,8 @@ Player::~Player()
 }
 void Player::PlayerUpdate()
 {
-	gravity += 2;
-	y += gravity;
+	gravity += 400 * Timer::GetInstance()->GetDeltaTime();
+	y += gravity * Timer::GetInstance()->GetDeltaTime();
 	if (y > 400 - 25)
 	{
 		jumpCount = 1;
