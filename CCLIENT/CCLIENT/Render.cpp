@@ -1,7 +1,8 @@
 #include "Render.h"
 #include "TColor.h"
-Render::Render()
+Render::Render(Board& board_)
 {
+	boardData = make_shared<Board>(board_);
 	for (int i = 0; i < MAP_SIZE_Y / TILE_SIZE_Y; i++)
 	{
 		vector<RenderObject> temp;
@@ -16,8 +17,10 @@ Render::Render()
 Render::~Render()
 {
 }
-void Render::PrintBoard(vector<vector<int>>& v)
+void Render::PrintBoard()
 {
+	boardData->LockMutex();
+	vector<vector<int>> v = boardData->GetBoard();
 	for (int i = 0; i < v.size() / TILE_SIZE_Y; i++)
 	{
 		for (int j = 0; j < v[i].size() / TILE_SIZE_X; j++)

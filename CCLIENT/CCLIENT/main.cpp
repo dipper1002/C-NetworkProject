@@ -12,7 +12,7 @@ int main()
 {
 	//Client client;
 	Board board;
-	Render render;
+	Render render(board);
 	Player player;
 	Timer::GetInstance();
 	while (true)
