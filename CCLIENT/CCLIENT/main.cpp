@@ -1,6 +1,7 @@
 ﻿#define _WINSOCK_DEPRECATED_NO_WARNINGS
 #include <stdio.h>
 #include <WinSock2.h>
+#include <crtdbg.h>
 #include "Client.h"
 #include "Board.h"
 #include "TColor.h"
@@ -11,8 +12,9 @@
 int main()
 {
 	//Client client;
-	Board board;
+	shared_ptr<Board> board(new Board());
 	Render render(board);
+	thread renderThread(&Render::PrintBoard, &render);
 	Player player;
 	Timer::GetInstance();
 	while (true)
@@ -20,10 +22,14 @@ int main()
 		//Sleep(100);
 		Timer::GetInstance()->Update();
 		//system("cls");
-		board.PaintBox(200, 400, 800, 600);
+		board->PaintBox(200, 400, 800, 600);
 		player.PlayerUpdate();
-		player.PrintPlayer(board);
-		board.PrintBoard(render);
+		player.PrintPlayer(*board);
+		render.Trigger();
+		board->BufferSwap();
 	}
+	renderThread.join();
+
+	_CrtDumpMemoryLeaks();
 	return 0;
 }

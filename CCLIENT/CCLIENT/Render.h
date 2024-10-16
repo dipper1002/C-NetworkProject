@@ -15,10 +15,14 @@ using namespace std;
 class Render
 {
 public:
-	Render(Board& board_);
+	Render(shared_ptr<Board> board_);
 	~Render();
 	void PrintBoard();
+	void Trigger();
 private:
 	vector<vector<RenderObject>> board;
 	shared_ptr<Board> boardData;
+	bool ready = false;
+	mutex mtx;
+	condition_variable cv;
 };

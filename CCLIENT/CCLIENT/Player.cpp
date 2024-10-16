@@ -2,10 +2,10 @@
 #include "TColor.h"
 #include "Timer.h"
 Player::Player() : 
-leftMove(std::make_shared<Observer>([this]() {x -= 50 * Timer::GetInstance()->GetDeltaTime(); })),
-rightMove(std::make_shared<Observer>([this]() {x += 50 * Timer::GetInstance()->GetDeltaTime(); })),
-upMove(std::make_shared<Observer>([this]() {if (jumpCount > 0) { gravity = -400; jumpCount--; } })),
-downMove(std::make_shared<Observer>([this]() {y += 5; }))
+leftMove(std::make_shared<Observer>([this]() {x -= 150 * Timer::GetInstance()->GetDeltaTime(); })),
+rightMove(std::make_shared<Observer>([this]() {x += 150 * Timer::GetInstance()->GetDeltaTime(); })),
+upMove(std::make_shared<Observer>([this]() {if (jumpCount > 0) { gravity = -600; jumpCount--; } })),
+downMove(std::make_shared<Observer>([this]() { }))
 {
 	x = 300;
 	y = 300;
@@ -20,7 +20,7 @@ Player::~Player()
 }
 void Player::PlayerUpdate()
 {
-	gravity += 400 * Timer::GetInstance()->GetDeltaTime();
+	gravity += 800 * Timer::GetInstance()->GetDeltaTime();
 	y += gravity * Timer::GetInstance()->GetDeltaTime();
 	if (y > 400 - 25)
 	{

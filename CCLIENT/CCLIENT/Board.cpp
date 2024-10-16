@@ -5,32 +5,64 @@
 #include <thread>
 Board::Board()
 {
-	board.resize(MAP_SIZE_Y);
-	for (int i = 0; i < MAP_SIZE_Y; i++)
+	board.resize(2);
+	for (int k = 0; k < 2; k++)
 	{
-		board[i].resize(MAP_SIZE_X);
-		for (int j = 0; j < MAP_SIZE_X; j++)
+		board[k].resize(MAP_SIZE_Y);
+		for (int i = 0; i < MAP_SIZE_Y; i++)
 		{
-			board[i][j] = 0;
+			board[k][i].resize(MAP_SIZE_X);
+			for (int j = 0; j < MAP_SIZE_X; j++)
+			{
+				board[k][i][j] = 0;
+			}
 		}
 	}
 }
 Board::~Board()
 {
 }
+void Board::BufferInit()
+{
+	for (int i = 0; i < MAP_SIZE_Y; i++)
+	{
+		for (int j = 0; j < MAP_SIZE_X; j++)
+		{
+			board[doubleBuff][i][j] = 0;
+		}
+	}
+}
+void Board::BufferSwap()
+{
+	doubleBuff = !doubleBuff;
+}
 void Board::PaintCircle(int x, int y, int r, int color)
 {
 	LockMutex();
+
 	for (int i = 0; i < MAP_SIZE_Y; i++)
 	{
 		for (int j = 0; j < MAP_SIZE_X; j++)
 		{
 			if ((i - y) * (i - y) + (j - x) * (j - x) <= r * r)
 			{
-				board[i][j] = color+1;
+				board[doubleBuff][i][j] = color+1;
 			}
 		}
 	}
+	UnLockMutex();
+}
+void Board::ClearBoard()
+{
+	LockMutex();
+	for (int i = 0; i < MAP_SIZE_Y; i++)
+	{
+		for (int j = 0; j < MAP_SIZE_X; j++)
+		{
+			board[doubleBuff][i][j] = 0;
+		}
+	}
+	UnLockMutex();
 }
 void Board::PaintBox(int x1, int y1, int x2, int y2, int color)
 {
@@ -40,20 +72,28 @@ void Board::PaintBox(int x1, int y1, int x2, int y2, int color)
 		for (int j = x1; j < x2; j++)
 		{
 			if (i >= 0 && i < MAP_SIZE_Y && j >= 0 && j < MAP_SIZE_X)
-			board[i][j] = color+1;
+			board[doubleBuff][i][j] = color+1;
 		}
 	}
+	UnLockMutex();
 
 }
-void Board::PrintBoard(Render render)
+void Board::PrintBoard(Render& render)
 {
 	thread t1(&Render::PrintBoard, &render);
+	t1.join();
 }
 void Board::LockMutex()
 {
-	lock_guard<mutex> lock(mtx);
+	mtx.lock();
+}
+void Board::UnLockMutex()
+{
+	mtx.unlock();
+
 }
 vector<vector<int>> Board::GetBoard()
 {
-	return board;
+	unique_lock<mutex> lock(mtx);
+	return board[!doubleBuff];
 }

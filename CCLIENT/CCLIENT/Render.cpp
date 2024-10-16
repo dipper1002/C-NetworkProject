@@ -1,8 +1,8 @@
 #include "Render.h"
 #include "TColor.h"
-Render::Render(Board& board_)
+Render::Render(shared_ptr<Board> board_)
 {
-	boardData = make_shared<Board>(board_);
+	boardData = board_;
 	for (int i = 0; i < MAP_SIZE_Y / TILE_SIZE_Y; i++)
 	{
 		vector<RenderObject> temp;
@@ -19,65 +19,81 @@ Render::~Render()
 }
 void Render::PrintBoard()
 {
-	boardData->LockMutex();
-	vector<vector<int>> v = boardData->GetBoard();
-	for (int i = 0; i < v.size() / TILE_SIZE_Y; i++)
+	while (true)
 	{
-		for (int j = 0; j < v[i].size() / TILE_SIZE_X; j++)
+		std::unique_lock<std::mutex> lock(mtx);
+
+		cv.wait(lock, [this] {return ready; });
+		vector<vector<int>> v = boardData->GetBoard();
+		//this_thread::sleep_for(chrono::milliseconds(100));
+		for (int i = 0; i < v.size() / TILE_SIZE_Y; i++)
 		{
-			int lu = 0;
-			int ru = 0;
-			int ld = 0;
-			int rd = 0;
-			int color[COLOR_COUNT] = { 0, };
-			for (int k = 0; k < TILE_SIZE_Y; k++)
+			for (int j = 0; j < v[i].size() / TILE_SIZE_X; j++)
 			{
-				for (int l = 0; l < TILE_SIZE_X; l++)
+				int lu = 0;
+				int ru = 0;
+				int ld = 0;
+				int rd = 0;
+				int color[COLOR_COUNT] = { 0, };
+				for (int k = 0; k < TILE_SIZE_Y; k++)
 				{
-					if (v[i * TILE_SIZE_Y + k][j * TILE_SIZE_X + l] >= 1)
+					for (int l = 0; l < TILE_SIZE_X; l++)
 					{
-						if (k < TILE_SIZE_Y / 2)
+						if (v[i * TILE_SIZE_Y + k][j * TILE_SIZE_X + l] >= 1)
 						{
-							if (l < TILE_SIZE_X / 2)
+							if (k < TILE_SIZE_Y / 2)
 							{
-								lu += 1;
+								if (l < TILE_SIZE_X / 2)
+								{
+									lu += 1;
+								}
+								else
+								{
+									ru += 1;
+								}
 							}
 							else
 							{
-								ru += 1;
+								if (l < TILE_SIZE_X / 2)
+								{
+									ld += 1;
+								}
+								else
+								{
+									rd += 1;
+								}
 							}
+							color[v[i * TILE_SIZE_Y + k][j * TILE_SIZE_X + l] - 1] += 1;
+							v[i * TILE_SIZE_Y + k][j * TILE_SIZE_X + l] = 0;
 						}
-						else
-						{
-							if (l < TILE_SIZE_X / 2)
-							{
-								ld += 1;
-							}
-							else
-							{
-								rd += 1;
-							}
-						}
-						color [v[i * TILE_SIZE_Y + k][j * TILE_SIZE_X + l] - 1] += 1;
-						v[i * TILE_SIZE_Y + k][j * TILE_SIZE_X + l] = 0;
 					}
 				}
-			}
-			int max = 0;
-			int maxIndex = 0;
-			for (int k = 0; k < COLOR_COUNT; k++)
-			{
-				if (color[k] > max)
+				int max = 0;
+				int maxIndex = 0;
+				for (int k = 0; k < COLOR_COUNT; k++)
 				{
-					max = color[k];
-					maxIndex = k;
+					if (color[k] > max)
+					{
+						max = color[k];
+						maxIndex = k;
+					}
 				}
+				board[i][j].SetState(lu, ru, ld, rd);
+				board[i][j].SetColor(maxIndex);
+				board[i][j].Print(j, i);
 			}
-			board[i][j].SetState(lu,ru,ld,rd);
-			board[i][j].SetColor(maxIndex);
-			board[i][j].Print(j,i);
+			cout << "\n";
 		}
-		cout << "\n";
+		boardData->ClearBoard();
+		ready = false;
 	}
 
+}
+void Render::Trigger()
+{
+	{
+		lock_guard<mutex> lock(mtx);
+		ready = true;
+	}
+	cv.notify_all();
 }
