@@ -24,6 +24,7 @@ Board::~Board()
 }
 void Board::BufferInit()
 {
+	LockMutex();
 	for (int i = 0; i < MAP_SIZE_Y; i++)
 	{
 		for (int j = 0; j < MAP_SIZE_X; j++)
@@ -31,10 +32,14 @@ void Board::BufferInit()
 			board[doubleBuff][i][j] = 0;
 		}
 	}
+	UnLockMutex();
 }
 void Board::BufferSwap()
 {
+	LockMutex();
 	doubleBuff = !doubleBuff;
+	UnLockMutex();
+	BufferInit();
 }
 void Board::PaintCircle(int x, int y, int r, int color)
 {

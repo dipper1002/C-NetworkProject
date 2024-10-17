@@ -25,7 +25,7 @@ void Render::PrintBoard()
 
 		cv.wait(lock, [this] {return ready; });
 		vector<vector<int>> v = boardData->GetBoard();
-		//this_thread::sleep_for(chrono::milliseconds(100));
+
 		for (int i = 0; i < v.size() / TILE_SIZE_Y; i++)
 		{
 			for (int j = 0; j < v[i].size() / TILE_SIZE_X; j++)
@@ -84,7 +84,6 @@ void Render::PrintBoard()
 			}
 			cout << "\n";
 		}
-		boardData->ClearBoard();
 		ready = false;
 	}
 
