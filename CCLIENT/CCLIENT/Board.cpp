@@ -1,5 +1,6 @@
 #pragma once
 #include <iostream>
+#include <algorithm>
 #include "Board.h"
 #include "Map.h"
 #include <thread>
@@ -25,13 +26,7 @@ Board::~Board()
 void Board::BufferInit()
 {
 	LockMutex();
-	for (int i = 0; i < MAP_SIZE_Y; i++)
-	{
-		for (int j = 0; j < MAP_SIZE_X; j++)
-		{
-			board[doubleBuff][i][j] = 0;
-		}
-	}
+	fill(board[doubleBuff].begin(), board[doubleBuff].end(), vector<int>(MAP_SIZE_X, 0));
 	UnLockMutex();
 }
 void Board::BufferSwap()

@@ -20,13 +20,21 @@ Player::~Player()
 }
 void Player::PlayerUpdate()
 {
+	int tempY = y;
 	gravity += 800 * Timer::GetInstance()->GetDeltaTime();
 	y += gravity * Timer::GetInstance()->GetDeltaTime();
-	if (y > 400 - 25)
+	if ((x > 200 && x < 800) && tempY <= 400 && y > 400 - 25)
 	{
 		jumpCount = 1;
 		y = 400 - 25;
 		gravity = 0;
+	}
+	if (y > 1000)
+	{
+				y = 300;
+		x = 300;
+		gravity = 0;
+		jumpCount = 1;
 	}
 }
 void Player::PrintPlayer(Board& b)
