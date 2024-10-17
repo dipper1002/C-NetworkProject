@@ -23,6 +23,8 @@ void Player::PlayerUpdate()
 	int tempY = y;
 	gravity += 800 * Timer::GetInstance()->GetDeltaTime();
 	y += gravity * Timer::GetInstance()->GetDeltaTime();
+
+	//임시 바닥 처리
 	if ((x > 200 && x < 800) && tempY <= 400 && y > 400 - 25)
 	{
 		jumpCount = 1;
