@@ -10,6 +10,8 @@ public:
 	~Player();
 	void PrintPlayer(Board& b);
 	void PlayerUpdate();
+	int GetX() { return x; }
+	int GetY() { return y; }
 private:
 	double x, y;
 	float gravity;

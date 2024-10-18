@@ -21,6 +21,7 @@ Server::Server()
 
 
 	threadList.push_back(thread(&Server::TGetNewClient, this));
+	tSendMessage = thread(&Server::TSendMessage, this);
 }
 Server::~Server()
 {
@@ -36,21 +37,30 @@ Server::~Server()
 
 	WSACleanup();
 }
-void Server::TGetUpdate(SOCKET hClient)
+void Server::TGetUpdate(SOCKET hClient, int id)
 {
 	while (1)
 	{
 		int output = recv(hClient, cBuffer, 1024, 0);
 		cBuffer[output] = '\0';
+
+		string strBuffer = "";
+		for (int i = 1; i < output; i++)
+		{
+			strBuffer += cBuffer[i];
+		}
+
+
 		if (output <= 0)
 		{
 			cout << "Client Disconnected" << endl;
 			break;
 		}
-		cout << "Receive Message: " << cBuffer << endl;
+		messageList[id] = strBuffer;
+		//cout << "Receive Message: " <<"ID:" <<id<<" " << strBuffer << endl;
 
-		char cMsg[] = "Hello, Client!";
-		send(hClient, cMsg, strlen(cMsg), 0);
+		//char cMsg[] = "Hello, Client!";
+		//send(hClient, cMsg, strlen(cMsg), 0);
 	}
 }
 void Server::TGetNewClient()
@@ -60,7 +70,40 @@ void Server::TGetNewClient()
 		listen(hListen, SOMAXCONN);
 
 		iClntSize = sizeof(tClntAddr);
+		messageList.push_back("");
 		hClient.push_back(accept(hListen, (SOCKADDR*)&tClntAddr, &iClntSize));
-		threadList.push_back(thread(&Server::TGetUpdate, this, hClient[hClient.size()-1]));
+		threadList.push_back(thread(&Server::TGetUpdate, this, hClient[hClient.size()-1], hClient.size()-1));
+	}
+}
+void ByteToInt(unsigned char* bytes, unsigned int& n)
+{
+	n = (bytes[0] & 0xFF) << 24 | (bytes[1] & 0xFF) << 16 | (bytes[2] & 0xFF) << 8 | (bytes[3] & 0xFF);
+}
+void Server::TSendMessage()
+{
+	while (1)
+	{
+		Sleep(100);
+		string strBuffer;
+		for (int i = 0; i < hClient.size(); i++)
+		{
+			int id = 0;
+			for (int j = 0; j < hClient.size(); j++)
+			{
+				if (messageList[j] == "")continue;
+				if (i == j)continue;
+
+				strBuffer = char(0);
+				strBuffer += char(id++);
+
+				strBuffer += messageList[j];
+				send(hClient[i], strBuffer.c_str(), strBuffer.size(), 0);
+			}
+			unsigned int x, y;
+			ByteToInt((unsigned char*)messageList[i].c_str(), x);
+			ByteToInt((unsigned char*)messageList[i].c_str() + 4, y);
+			cout << "User Pos : X: " << x << " Y: " << y << endl;
+		}
+		cout << "User Count: " << hClient.size() << endl;
 	}
 }

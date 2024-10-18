@@ -7,15 +7,18 @@
 #include "TColor.h"
 #include "Player.h"
 #include "Timer.h"
+#include "OtherPlayer.h"
 #pragma comment(lib, "ws2_32")
 
 int main()
 {
-	//Client client;
 	shared_ptr<Board> board(new Board());
 	Render render(board);
+	OtherPlayer otherPlayer;
 	thread renderThread(&Render::PrintBoard, &render);
 	Player player;
+	Client client(&player, &otherPlayer);
+
 	Timer::GetInstance();
 	while (true)
 	{
@@ -23,6 +26,7 @@ int main()
 		board->PaintBox(200, 400, 800, 600);
 		player.PlayerUpdate();
 		player.PrintPlayer(*board);
+		otherPlayer.PrintPlayer(*board);
 		render.Trigger();
 		board->BufferSwap();
 	}

@@ -1,7 +1,7 @@
 #pragma once
 #define PORT 4578
 #define PACKET_SIZE 1024
-#define SERVER_IP "127.0.0.1"
+#define SERVER_IP "dipper.iptime.org"
 
 #define MAP_SIZE_X 960
 #define MAP_SIZE_Y 540

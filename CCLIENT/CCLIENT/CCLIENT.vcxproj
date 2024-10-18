@@ -131,7 +131,9 @@
     <ClCompile Include="Client.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="IntByte.cpp" />
     <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="OtherPlayer.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Subject.cpp" />
     <ClCompile Include="TColor.h" />
@@ -145,8 +147,10 @@
     <ClInclude Include="Client.h" />
     <ClInclude Include="DefineSetting.h" />
     <ClInclude Include="InputManager.h" />
+    <ClInclude Include="IntByte.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="Observer.h" />
+    <ClInclude Include="OtherPlayer.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Render.h" />
     <ClInclude Include="Subject.h" />

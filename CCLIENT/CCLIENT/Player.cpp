@@ -41,5 +41,5 @@ void Player::PlayerUpdate()
 }
 void Player::PrintPlayer(Board& b)
 {
-	b.PaintBox((int)x-25, (int)y-25, x+25, y+25,RED);
+	b.PaintCircle(x, y, 25, 1);
 }

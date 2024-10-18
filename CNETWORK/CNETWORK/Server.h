@@ -17,10 +17,13 @@ private:
 	vector<SOCKET> hClient;
 	char cBuffer[1024] = {};
 	vector<thread> threadList;
+	vector<string> messageList;
+	thread tSendMessage;
 public:
 	Server();
 	~Server();
-	void TGetUpdate(SOCKET hClient);
+	void TSendMessage();
+	void TGetUpdate(SOCKET hClient, int id);
 	void TGetNewClient();
 };
 

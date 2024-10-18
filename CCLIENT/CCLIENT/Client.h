@@ -3,6 +3,9 @@
 #include <WinSock2.h>
 #include <iostream>
 #include <thread>
+#include "OtherPlayer.h"
+#include "Player.h"
+#include "IntByte.h"
 class Client
 {
 private:
@@ -10,11 +13,15 @@ private:
 	SOCKET hSocket;
 	SOCKADDR_IN tAddr;
 	char cBuffer[1024];
-	std::thread* pThread;
+	std::thread thread;
+	std::thread recvThread;
+	Player* player;
+	OtherPlayer* otherPlayer;
 	
 public:
-	Client();
+	Client(Player* player, OtherPlayer* otherPlayer);
 	~Client();
 	void Update();
+	void RecvUpdate();
 
 };
